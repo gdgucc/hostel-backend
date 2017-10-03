@@ -18,7 +18,6 @@ class Server {
     }
 
     public config() {
-
         const MONGO_URI = 'mongodb://localhost/hostels';
         mongoose.connect(MONGO_URI || process.env.MONGODB_URI);
 
@@ -31,7 +30,12 @@ class Server {
     }
 
     public routes(): void {
+        let router: express.Router;
+        router = express.Router();
+
+        this.app.use('/', router);
 
     }
-
 }
+
+export default new Server().app;
