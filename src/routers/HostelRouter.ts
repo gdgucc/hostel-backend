@@ -53,11 +53,41 @@ class HostelRouter {
 
     public CreateHostel(req: Request, res: Response): void {
 
+        const name: string = req.body.name;
+        const slug: string = req.body.slug;
+        const description: string = req.body.description;
+        const room_type: string = req.body.room_type;
+        const location: string = req.body.location ;
+        
+        const hostel = new Hostel({
+            name,
+            slug,
+            description,
+            room_type,
+            location 
+        });
+
+        hostel.save()
+        .then((data) => {
+            const status = res.statusCode;
+            res.json({
+                status,
+                data
+            });
+        })
+        .catch((error) => {
+            const status = res.statusCode;
+            res.json({
+                status,
+                error
+            });            
+        });
     }
 
     routes() {
         this.router.get('/', this.GetHostels);
         this.router.get('/:slug', this.GetHostel);
+        this.router.post('/', this.CreateHostel);
     }
 }
 
