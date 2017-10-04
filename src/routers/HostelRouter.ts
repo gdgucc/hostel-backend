@@ -32,7 +32,23 @@ class HostelRouter {
     }
 
     public GetHostel(req: Request, res: Response): void {
-        
+        const slug = req.params.slug;
+
+        Hostel.findOne({slug})
+        .then((data) => {
+            const status = res.statusCode;
+            res.json({
+                status,
+                data
+            });
+        })
+        .catch((error) => {
+            const status = res.statusCode;
+            res.json({
+                status,
+                error
+            });            
+        });
     }
 
     public CreateHostel(req: Request, res: Response): void {
@@ -41,6 +57,7 @@ class HostelRouter {
 
     routes() {
         this.router.get('/', this.GetHostels);
+        this.router.get('/:slug', this.GetHostel);
     }
 }
 
