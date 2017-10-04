@@ -40,6 +40,11 @@ class HostelRouter {
     }
 
     routes() {
-
+        this.router.get('/', this.GetHostels);
     }
 }
+
+const hostelRoutes = new HostelRouter();
+hostelRoutes.routes();
+
+export default hostelRoutes.router;
