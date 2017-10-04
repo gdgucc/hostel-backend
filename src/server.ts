@@ -6,6 +6,9 @@ import * as helmet from 'helmet';
 import * as compression from 'compression';
 import * as cors from 'cors';
 
+//routers
+import Hostelrouter from './routers/HostelRouter';
+
 
 class Server {
 
@@ -34,7 +37,7 @@ class Server {
         router = express.Router();
 
         this.app.use('/', router);
-
+        this.app.use('/api/v1/hostels', Hostelrouter);
     }
 }
 
