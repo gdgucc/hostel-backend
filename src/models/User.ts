@@ -12,7 +12,7 @@ let UserSchema: Schema = new Schema ({
         required: true
     },
     password: {
-        type: 'String',
+        type: String,
         required: true
     },
     is_admin: {
