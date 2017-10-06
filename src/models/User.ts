@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { genSalt, hash } from 'bcrypt';
+import { genSalt, hash, compare } from 'bcrypt';
 
 let  SALT_WORK_FACTOR = 10;
 
@@ -43,6 +43,13 @@ UserSchema.pre('save', function(next){
             next();
         });
     });
-})
+});
+
+UserSchema.methods.comparePassword = function(password, cb) {
+    compare(password, this.password, function(err, isMatch) {
+        if (err) return cb(err);
+        cb(null, isMatch);
+    });
+};
 
 export default model('User', UserSchema)
