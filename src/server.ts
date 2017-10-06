@@ -8,6 +8,7 @@ import * as cors from 'cors';
 
 //routers
 import Hostelrouter from './routers/HostelRouter';
+import UserRouter from './routers/UserRouter';
 
 
 class Server {
@@ -38,6 +39,7 @@ class Server {
 
         this.app.use('/', router);
         this.app.use('/api/v1/hostels', Hostelrouter);
+        this.app.use('/api/v1/users', UserRouter);
     }
 }
 
