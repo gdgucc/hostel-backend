@@ -1,9 +1,9 @@
 import { Schema, model } from 'mongoose';
 import { genSalt, hash, compare } from 'bcrypt';
 
-let  SALT_WORK_FACTOR = 10;
+let SALT_WORK_FACTOR = 10;
 
-let UserSchema: Schema = new Schema ({
+let UserSchema: Schema = new Schema({
     createdAt: Date,
     updatedAt: Date,
     name: {
@@ -24,18 +24,18 @@ let UserSchema: Schema = new Schema ({
     }
 })
 
-UserSchema.pre('save', function(next){
+UserSchema.pre('save', function (next) {
     var user = this;
-    
+
     // only hash the password if it has been modified (or is new)
     if (!user.isModified('password')) return next();
 
     // generate a salt
-    genSalt(SALT_WORK_FACTOR, function(err, salt) {
+    genSalt(SALT_WORK_FACTOR, function (err, salt) {
         if (err) return next(err);
 
         // hash the password using our new salt
-        hash(user.password, salt, function(err, hash) {
+        hash(user.password, salt, function (err, hash) {
             if (err) return next(err);
 
             // override the cleartext password with the hashed one
@@ -45,11 +45,9 @@ UserSchema.pre('save', function(next){
     });
 });
 
-UserSchema.methods.comparePassword = function(password, cb) {
-    compare(password, this.password, function(err, isMatch) {
-        if (err) return cb(err);
-        cb(null, isMatch);
-    });
-};
+UserSchema.method('comparePassword', function (password: string): boolean {
+    if (compare(password, this.password)) return true;
+    return false;
+});
 
 export default model('User', UserSchema)
